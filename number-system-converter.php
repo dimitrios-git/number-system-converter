@@ -16,8 +16,8 @@ add_action('wp_enqueue_scripts', 'number_system_converter_enqueue_styles');
 function nsc_number_system_converter_form() {
   ob_start();
 ?>
-    <div class="number-system-converter">
-        <form id="nsc-converter-form">
+    <div class="nsc-wrapper">
+        <form id="nsc-form">
             <?php wp_nonce_field('nsc_convert_action', 'nsc_nonce_field'); ?>
             
             <label for="nsc-input-number">Enter Number:</label>

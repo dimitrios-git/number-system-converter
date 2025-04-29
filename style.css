@@ -1,9 +1,9 @@
-.number-system-converter form {
+.nsc-wrapper form {
   gap: 0;
 }
 
-.number-system-converter input,
-.number-system-converter select {
+.nsc-wrapper input,
+.nsc-wrapper select {
   margin: 5px 0;
   display: block;
   width: 100%;
@@ -11,7 +11,7 @@
   font-size: 16px;
 }
 
-.number-system-converter button {
+.nsc-wrapper button {
   border: none;
   cursor: pointer;
 }
