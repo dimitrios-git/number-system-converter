@@ -11,7 +11,7 @@ A lightweight WordPress plugin that allows users to convert numbers between Deci
 
 ## Live Demo
 You can see the plugin in action on:  
-[thecondingidiot.com - Number Systems Lesson](https://thecodingidiot.com/course/foundations-of-computing-and-unix/lesson/number-systems-the-invisible-code-behind-computing/)
+[thecondingidiot.com - Number Systems Lesson](https://thecodingidiot.com/lesson/number-systems-the-invisible-code-behind-computing/)
 
 ## Installation
 1. Upload the plugin files to the `/wp-content/plugins/number-system-converter` directory, or install it directly through the WordPress plugins screen.
