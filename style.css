@@ -1,0 +1,23 @@
+.number-system-converter form {
+    gap: 0;
+}
+
+.number-system-converter input,
+.number-system-converter select {
+    margin: 5px 0;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.number-system-converter button {
+    border: none;
+    cursor: pointer;
+}
+
+#nsc-result {
+    margin-top: 10px;
+    font-size: 18px;
+}
+
