@@ -1,66 +1,68 @@
 jQuery(document).ready(function($) {
     $('#nsc-converter-form').on('submit', function(e) {
-        e.preventDefault();
+      e.preventDefault();
+      
+      const nonce = $('#nsc_nonce_field').val();
+      if (!nonce) {
+        alert('Security error: Missing nonce.');
+        return;
+      }
 
-        var number = $('#nsc-input-number').val();
-        var fromBase = parseInt($('#nsc-from-system').val());
-        var toBase = parseInt($('#nsc-to-system').val());
+      const number = $('#nsc-input-number').val().trim();
+      const fromBase = parseInt($('#nsc-from-system').val());
+      const toBase = parseInt($('#nsc-to-system').val());
+      const $result = $('#nsc-result span');
 
-        var result;
-
-        try {
-            // Validate if the input number is valid for the selected base
-            var validNumberPattern;
-
-            switch (fromBase) {
-                case 2:
-                    validNumberPattern = /^[01]+$/i; // Binary only allows 0 and 1
-                    break;
-                case 8:
-                    validNumberPattern = /^[0-7]+$/i; // Octal only allows 0-7
-                    break;
-                case 10:
-                    validNumberPattern = /^[0-9]+$/; // Decimal only allows 0-9
-                    break;
-                case 16:
-                    validNumberPattern = /^[0-9A-F]+$/i; // Hexadecimal allows 0-9, A-F
-                    break;
-                default:
-                    throw 'Unsupported base.';
-            }
-
-            if (!validNumberPattern.test(number)) {
-                throw 'Invalid number for the selected base.';
-            }
-
-            // Convert the number from the source base to an integer
-            var parsedNumber = parseInt(number, fromBase);
-
-            // Convert the number to the target base
-            result = parsedNumber.toString(toBase).toUpperCase();
-
-            // Handle padding when converting to binary
-            if (toBase === 2) {
-                // Calculate the expected bit length based on the original input's length
-                if (fromBase === 16) {
-                    var expectedLength = number.length * 4; // 4 bits per hex digit
-                } else if (fromBase === 8) {
-                    var expectedLength = number.length * 3; // 3 bits per octal digit
-                } else if (fromBase === 2) {
-                    var expectedLength = number.length; // 1 bit per binary digit
-                } else {
-                    // For decimal, determine the binary length manually
-                    var expectedLength = Math.ceil(Math.log2(parsedNumber + 1));
-                }
-                
-                // Pad the result with leading zeros to match the expected length
-                result = result.padStart(expectedLength, '0');
-            }
-        } catch (e) {
-            result = e; // Display the error message
+      let output;
+      
+      try {
+        if (!number) {
+          throw new Error('Please enter a number.');
         }
-
-        $('#nsc-result').text('Result: ' + result);
+        
+        // Define valid patterns
+        const patterns = {
+          2: /^[01]+$/i,
+          8: /^[0-7]+$/i,
+          10: /^[0-9]+$/,
+          16: /^[0-9A-F]+$/i
+        };
+        
+        if (!patterns[fromBase]) {
+          throw new Error('Unsupported base selected.');
+        }
+        
+        if (!patterns[fromBase].test(number)) {
+          throw new Error('Invalid number format for the selected base.');
+        }
+        
+        // Perform conversion
+        const parsedNumber = parseInt(number, fromBase);
+        let result = parsedNumber.toString(toBase).toUpperCase();
+        
+        // Pad binary results
+        if (toBase === 2) {
+          let expectedLength;
+          if (fromBase === 16) {
+            expectedLength = number.length * 4;
+          } else if (fromBase === 8) {
+            expectedLength = number.length * 3;
+          } else if (fromBase === 2) {
+            expectedLength = number.length;
+          } else {
+            expectedLength = Math.ceil(Math.log2(parsedNumber + 1));
+          }
+          result = result.padStart(expectedLength, '0');
+        }
+        
+        output = `Result: ${result}`;
+        $result.removeClass('nsc-error').addClass('nsc-success');
+      } catch (err) {
+        output = `Error: ${err.message}`;
+        $result.removeClass('nsc-success').addClass('nsc-error');
+      }
+      
+      $result.text(output);
     });
 });
 
