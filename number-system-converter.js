@@ -1,5 +1,5 @@
 jQuery(document).ready(function($) {
-    $('#nsc-converter-form').on('submit', function(e) {
+    $('#nsc-form').on('submit', function(e) {
       e.preventDefault();
       
       const nonce = $('#nsc_nonce_field').val();
